@@ -42,10 +42,24 @@ public class MainGameLoop {
         shedTexture.setShineDamper(0);
         shedTexture.setReflectivity(0);
 
+        RawModel deskModel = OBJLoader.loadObjModel("desk", loader);
+        TexturedModel staticDeskModel = new TexturedModel(deskModel, new ModelTexture(loader.loadTexture("oldwood")));
+        ModelTexture deskTexture = staticDeskModel.getTexture();
+        deskTexture.setShineDamper(0);
+        deskTexture.setReflectivity(0);
+
+        RawModel shovelModel = OBJLoader.loadObjModel("shovel", loader);
+        TexturedModel staticShovelModel = new TexturedModel(shovelModel, new ModelTexture(loader.loadTexture("shovelTexture")));
+        ModelTexture shovelTexture = staticDeskModel.getTexture();
+        shovelTexture.setShineDamper(0);
+        shovelTexture.setReflectivity(0);
+
         Entity shackEntity = new Entity(staticShackModel, new Vector3f(5, -3, -40), 0, 0, 0, 1);
         Entity treeEntity = new Entity(staticTreeModel, new Vector3f(10, -3, -30), 0, 0, 0, 1);
         Entity reelEntity = new Entity(staticReelModel, new Vector3f(0, -3, -15), 0, 0, 0, 1);
         Entity shedEntity = new Entity(staticShedModel, new Vector3f(-10, -3, -30), 0, 0, 0, .65f);
+        Entity deskEntity = new Entity(staticDeskModel, new Vector3f(-10, -3, -20), 0, 0, 0, 1);
+        Entity shovelEntity = new Entity(staticShovelModel, new Vector3f(0, -3, -20), 0, 0, 0, 1);
 
         Light light = new Light(new Vector3f(0, 0, -10), new Vector3f(1, 1, 1));
         Camera camera = new Camera();
@@ -54,13 +68,17 @@ public class MainGameLoop {
         while(!Display.isCloseRequested()){
             shackEntity.increaseRotation(0, -.1f, 0);
             treeEntity.increaseRotation(0, -.1f, 0);
-            reelEntity.increaseRotation(0, .1f, 0);
-            shedEntity.increaseRotation(0, -.1f, 0);
+            //reelEntity.increaseRotation(0, .1f, 0);
+            //shedEntity.increaseRotation(0, -.1f, 0);
+            deskEntity.increaseRotation(0, -.1f, 0);
+            shovelEntity.increaseRotation(0, -.1f, 0);
 
             renderer.processEntity(shackEntity);
             renderer.processEntity(treeEntity);
-            renderer.processEntity(reelEntity);
-            renderer.processEntity(shedEntity);
+            //renderer.processEntity(reelEntity);
+            //renderer.processEntity(shedEntity);
+            renderer.processEntity(deskEntity);
+            renderer.processEntity(shovelEntity);
 
             camera.move();
             renderer.render(light, camera);
