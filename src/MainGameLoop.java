@@ -6,7 +6,7 @@ import org.lwjgl.opengl.Display;
 import org.lwjgl.util.vector.Vector3f;
 import renderEngine.*;
 import models.RawModel;
-import shaders.StaticShader;
+import terrain.Terrain;
 import textures.ModelTexture;
 
 /**
@@ -21,66 +21,31 @@ public class MainGameLoop {
         RawModel shackModel = OBJLoader.loadObjModel("shack", loader);
         TexturedModel staticShackModel = new TexturedModel(shackModel, new ModelTexture(loader.loadTexture("shackTexture")));
         ModelTexture shackTexture = staticShackModel.getTexture();
-        shackTexture.setShineDamper(5);
-        shackTexture.setReflectivity(.05f);
+        //shackTexture.setShineDamper(5);
+        //shackTexture.setReflectivity(.05f);
 
-        RawModel treeModel = OBJLoader.loadObjModel("treewithleaves", loader);
-        TexturedModel staticTreeModel = new TexturedModel(treeModel, new ModelTexture(loader.loadTexture("treeTexture")));
-        ModelTexture treeTexture = staticTreeModel.getTexture();
-        treeTexture.setShineDamper(5);
-        treeTexture.setReflectivity(.1f);
+        Entity shackEntity = new Entity(staticShackModel, new Vector3f(0, 0, -20), 0, 0, 0, 1);
 
-        RawModel reelModel = OBJLoader.loadObjModel("reelmower", loader);
-        TexturedModel staticReelModel = new TexturedModel(reelModel, new ModelTexture(loader.loadTexture("reelmowerTexture")));
-        ModelTexture reelTexture = staticReelModel.getTexture();
-        reelTexture.setShineDamper(5);
-        reelTexture.setReflectivity(.1f);
+        Terrain terrain = new Terrain(-1, -1, loader, new ModelTexture(loader.loadTexture("grass")));
+        Terrain terrain2 = new Terrain(-1, 0, loader, new ModelTexture(loader.loadTexture("grass")));
+        Terrain terrain3 = new Terrain(0, 0, loader, new ModelTexture(loader.loadTexture("grass")));
+        Terrain terrain4 = new Terrain(0, -1, loader, new ModelTexture(loader.loadTexture("grass")));
 
-        RawModel shedModel = OBJLoader.loadObjModel("shed", loader);
-        TexturedModel staticShedModel = new TexturedModel(shedModel, new ModelTexture(loader.loadTexture("shedTexture")));
-        ModelTexture shedTexture = staticShedModel.getTexture();
-        shedTexture.setShineDamper(0);
-        shedTexture.setReflectivity(0);
-
-        RawModel deskModel = OBJLoader.loadObjModel("desk", loader);
-        TexturedModel staticDeskModel = new TexturedModel(deskModel, new ModelTexture(loader.loadTexture("oldwood")));
-        ModelTexture deskTexture = staticDeskModel.getTexture();
-        deskTexture.setShineDamper(0);
-        deskTexture.setReflectivity(0);
-
-        RawModel shovelModel = OBJLoader.loadObjModel("shovel", loader);
-        TexturedModel staticShovelModel = new TexturedModel(shovelModel, new ModelTexture(loader.loadTexture("shovelTexture")));
-        ModelTexture shovelTexture = staticDeskModel.getTexture();
-        shovelTexture.setShineDamper(0);
-        shovelTexture.setReflectivity(0);
-
-        Entity shackEntity = new Entity(staticShackModel, new Vector3f(5, -3, -40), 0, 0, 0, 1);
-        Entity treeEntity = new Entity(staticTreeModel, new Vector3f(10, -3, -30), 0, 0, 0, 1);
-        Entity reelEntity = new Entity(staticReelModel, new Vector3f(0, -3, -15), 0, 0, 0, 1);
-        Entity shedEntity = new Entity(staticShedModel, new Vector3f(-10, -3, -30), 0, 0, 0, .65f);
-        Entity deskEntity = new Entity(staticDeskModel, new Vector3f(-10, -3, -20), 0, 0, 0, 1);
-        Entity shovelEntity = new Entity(staticShovelModel, new Vector3f(0, -3, -20), 0, 0, 0, 1);
-
-        Light light = new Light(new Vector3f(0, 0, -10), new Vector3f(1, 1, 1));
+        Light light = new Light(new Vector3f(300, 200, 200), new Vector3f(1, 1, 1));
         Camera camera = new Camera();
 
         MasterRenderer renderer = new MasterRenderer();
         while(!Display.isCloseRequested()){
-            shackEntity.increaseRotation(0, -.1f, 0);
-            treeEntity.increaseRotation(0, -.1f, 0);
-            //reelEntity.increaseRotation(0, .1f, 0);
-            //shedEntity.increaseRotation(0, -.1f, 0);
-            deskEntity.increaseRotation(0, -.1f, 0);
-            shovelEntity.increaseRotation(0, -.1f, 0);
-
-            renderer.processEntity(shackEntity);
-            renderer.processEntity(treeEntity);
-            //renderer.processEntity(reelEntity);
-            //renderer.processEntity(shedEntity);
-            renderer.processEntity(deskEntity);
-            renderer.processEntity(shovelEntity);
+            shackEntity.increaseRotation(0, .1f, 0);
 
             camera.move();
+
+            renderer.processTerrain(terrain);
+            renderer.processTerrain(terrain2);
+            renderer.processTerrain(terrain3);
+            renderer.processTerrain(terrain4);
+            renderer.processEntity(shackEntity);
+
             renderer.render(light, camera);
             DisplayManager.updateDisplay();
         }
