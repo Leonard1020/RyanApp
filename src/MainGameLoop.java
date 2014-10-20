@@ -24,7 +24,16 @@ public class MainGameLoop {
         //shackTexture.setShineDamper(5);
         //shackTexture.setReflectivity(.05f);
 
-        Entity shackEntity = new Entity(staticShackModel, new Vector3f(0, 0, -20), 0, 0, 0, 1);
+        TexturedModel grass = new TexturedModel(OBJLoader.loadObjModel("grass", loader), new ModelTexture(loader.loadTexture("grassTexture")));
+        grass.getTexture().setHasTransparency(true);
+        grass.getTexture().setUseFakeLighting(true);
+        TexturedModel fern = new TexturedModel(OBJLoader.loadObjModel("fern", loader), new ModelTexture(loader.loadTexture("fern")));
+        fern.getTexture().setHasTransparency(true);
+        fern.getTexture().setUseFakeLighting(true);
+
+        Entity shackEntity = new Entity(staticShackModel, new Vector3f(10, 0, -20), 0, 0, 0, 1);
+        Entity fernEntity = new Entity(fern, new Vector3f(0, 0, -20), 0, 0, 0, 1);
+        Entity grassEntity = new Entity(grass, new Vector3f(0, 0, -20), 0, 0, 0, 1);
 
         Terrain terrain = new Terrain(-1, -1, loader, new ModelTexture(loader.loadTexture("grass")));
         Terrain terrain2 = new Terrain(-1, 0, loader, new ModelTexture(loader.loadTexture("grass")));
@@ -45,6 +54,8 @@ public class MainGameLoop {
             renderer.processTerrain(terrain3);
             renderer.processTerrain(terrain4);
             renderer.processEntity(shackEntity);
+            renderer.processEntity(fernEntity);
+            renderer.processEntity(grassEntity);
 
             renderer.render(light, camera);
             DisplayManager.updateDisplay();
