@@ -44,7 +44,7 @@ public class MasterRenderer {
     }
 
     public static void enableCulling(){
-        //GL11.glEnable(GL11.GL_CULL_FACE);
+        GL11.glEnable(GL11.GL_CULL_FACE);
         GL11.glCullFace(GL11.GL_BACK);
     }
 
