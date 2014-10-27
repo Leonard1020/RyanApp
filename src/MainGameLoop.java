@@ -66,6 +66,9 @@ public class MainGameLoop {
         //tree
         RawModel treeModel = OBJLoader.loadObjModel("treewithleaves", loader);
         TexturedModel tree = new TexturedModel(treeModel, new ModelTexture(loader.loadTexture("treeTexture")));
+        //lowpolytree
+        RawModel lptreeModel = OBJLoader.loadObjModel("lowpolytree", loader);
+        TexturedModel lptree = new TexturedModel(lptreeModel, new ModelTexture(loader.loadTexture("lowpolytreeTexture")));
         //grass
         TexturedModel grass = new TexturedModel(OBJLoader.loadObjModel("grass", loader), new ModelTexture(loader.loadTexture("grassTexture")));
         grass.getTexture().setHasTransparency(true);
@@ -78,11 +81,21 @@ public class MainGameLoop {
 
         List<Entity> entities = new ArrayList<Entity>();
         Random random = new Random();
-        for (int i = 0; i < 1000; i++){
-            entities.add(new Entity(grass, new Vector3f(random.nextFloat()*800-400, 0, random.nextFloat()*800-400), 0, 0, 0, 1));
-            entities.add(new Entity(grass, new Vector3f(random.nextFloat()*800-400, 0, random.nextFloat()*800-400), 0, 0, 0, 1));
-            if (i > 990){
-                entities.add(new Entity(tree, new Vector3f(random.nextFloat()*800-400, 0, random.nextFloat()*800-400), 0, 0, 0, 1.5f));
+        for (int i = 0; i < 2000; i++){
+            entities.add(new Entity(grass, new Vector3f(random.nextFloat()*1500-750, 0, random.nextFloat()*1500-750), 0, 0, 0, 1));
+            entities.add(new Entity(grass, new Vector3f(random.nextFloat()*1500-750, 0, random.nextFloat()*1500-750), 0, 0, 0, 1));
+            if (i > 500){
+                Entity e = new Entity(lptree, new Vector3f(random.nextFloat()*1500-750, 0, random.nextFloat()*1500-750), 0, 0, 0, 1);
+                e.setRotY(random.nextFloat() * 100);
+                e.setScale(random.nextFloat() * 1.2f);
+                if (e.getScale() < .3f){
+                    e.setScale(e.getScale() + .4f);
+                }
+                entities.add(e);
+                //entities.add(new Entity(lptree, new Vector3f(random.nextFloat()*800-400, 0, random.nextFloat()*800-400), 0, 0, 0, 1));
+            }
+            if (i > 1995){
+                entities.add(new Entity(tree, new Vector3f(random.nextFloat()*600-300, 0, random.nextFloat()*600-300), 0, 0, 0, 2));
             }
         }
 
