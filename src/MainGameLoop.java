@@ -95,7 +95,7 @@ public class MainGameLoop {
                 //entities.add(new Entity(lptree, new Vector3f(random.nextFloat()*800-400, 0, random.nextFloat()*800-400), 0, 0, 0, 1));
             }
             if (i > 1995){
-                entities.add(new Entity(tree, new Vector3f(random.nextFloat()*600-300, 0, random.nextFloat()*600-300), 0, 0, 0, 2));
+                entities.add(new Entity(tree, new Vector3f(random.nextFloat()*500-250, 0, random.nextFloat()*500-250), 0, 0, 0, 2));
             }
         }
 
