@@ -17,7 +17,7 @@ public class DisplayManager {
         try {
             Display.setDisplayMode(new DisplayMode(WIDTH, HEIGHT));
             Display.create(new PixelFormat(), attribs);
-            Display.setTitle("Clash of Camps");
+            Display.setTitle("Campground App");
         } catch (LWJGLException e) {
             e.printStackTrace();
         }

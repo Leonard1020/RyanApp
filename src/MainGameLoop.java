@@ -19,6 +19,10 @@ import java.util.Random;
 public class MainGameLoop {
 
     public static void main(String[] args){
+        new MainGameLoop();
+    }
+
+    public MainGameLoop(){
         DisplayManager.createDisplay();
         Loader loader = new Loader();
 
