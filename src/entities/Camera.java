@@ -35,17 +35,9 @@ public class Camera {
         if (Keyboard.isKeyDown(Keyboard.KEY_LSHIFT)){
             position.y -= 0.25f;
         }
-        if (Keyboard.isKeyDown(Keyboard.KEY_E)){
-            yaw += 1;
-        }
-        if (Keyboard.isKeyDown(Keyboard.KEY_Q)){
-            yaw -= 1;
-        }
-        if (Keyboard.isKeyDown(Keyboard.KEY_2)){
-            pitch -= 1;
-        }
-        if (Keyboard.isKeyDown(Keyboard.KEY_F)){
-            pitch += 1;
+        if (Mouse.isButtonDown(0)){
+            yaw += Mouse.getDX();
+            pitch -= Mouse.getDY();
         }
     }
 
