@@ -32,6 +32,7 @@ public class MainGameLoop {
         RawModel shackModel = OBJLoader.loadObjModel("shack", loader);
         TexturedModel staticShackModel = new TexturedModel(shackModel, new ModelTexture(loader.loadTexture("shackTexture")));
         ModelTexture shackTexture = staticShackModel.getTexture();
+        Entity shackEntity = new Entity(staticShackModel, new Vector3f(22, 0, -20), 0, 0, 0, 1.5f);
 
         /**
          * Desk Entity
@@ -40,6 +41,7 @@ public class MainGameLoop {
         TexturedModel staticDeskModel = new TexturedModel(deskModel, new ModelTexture(loader.loadTexture("oldwood")));
         ModelTexture deskTexture = staticDeskModel.getTexture();
         staticDeskModel.getTexture().setHasTransparency(true);
+        Entity deskEntity = new Entity(staticDeskModel, new Vector3f(7, 0, -20), 0, 0, 0, 1.15f);
 
         /**
          * Reel Mower Entity
@@ -47,6 +49,7 @@ public class MainGameLoop {
         RawModel reelMowerModel = OBJLoader.loadObjModel("reelmower", loader);
         TexturedModel staticReelMowerModel = new TexturedModel(reelMowerModel, new ModelTexture(loader.loadTexture("reelmowerTexture")));
         ModelTexture reelMowerTexture = staticReelMowerModel.getTexture();
+        Entity reelMowerEntity = new Entity(staticReelMowerModel, new Vector3f(0, 0, -20), 0, 0, 0, 1);
 
         /**
          * Shed Entity
@@ -56,6 +59,7 @@ public class MainGameLoop {
         ModelTexture shedTexture = staticShedModel.getTexture();
         staticShedModel.getTexture().setHasTransparency(true);
         //staticShedModel.getTexture().setUseFakeLighting(true);
+        Entity shedEntity = new Entity(staticShedModel, new Vector3f(-13, 0, -20), 0, 0, 0, 1);
 
         /**
          * Shovel Entity
@@ -63,6 +67,7 @@ public class MainGameLoop {
         RawModel shovelModel = OBJLoader.loadObjModel("shovel", loader);
         TexturedModel staticShovelModel = new TexturedModel(shovelModel, new ModelTexture(loader.loadTexture("shovelTexture")));
         ModelTexture shovelTexture = staticShovelModel.getTexture();
+        Entity shovelEntity = new Entity(staticShovelModel, new Vector3f(-3, 0, -20), 0, 0, 0, .75f);
 
         /**
          * Creates grass, trees, and ferns to fill the world
@@ -104,11 +109,6 @@ public class MainGameLoop {
         }
 
         //adds the single entities to the list
-        Entity shackEntity = new Entity(staticShackModel, new Vector3f(22, 0, -20), 0, 0, 0, 1.5f);
-        Entity deskEntity = new Entity(staticDeskModel, new Vector3f(7, 0, -20), 0, 0, 0, 1.15f);
-        Entity reelMowerEntity = new Entity(staticReelMowerModel, new Vector3f(0, 0, -20), 0, 0, 0, 1);
-        Entity shedEntity = new Entity(staticShedModel, new Vector3f(-13, 0, -20), 0, 0, 0, 1);
-        Entity shovelEntity = new Entity(staticShovelModel, new Vector3f(-3, 0, -20), 0, 0, 0, .75f);
         entities.add(shackEntity);
         entities.add(deskEntity);
         entities.add(reelMowerEntity);

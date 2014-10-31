@@ -1,7 +1,10 @@
 package entities;
 
 import org.lwjgl.input.Keyboard;
+import org.lwjgl.input.Mouse;
 import org.lwjgl.util.vector.Vector3f;
+
+import java.awt.event.MouseListener;
 
 /**
  * Created by leonardj on 10/3/14.
@@ -31,6 +34,18 @@ public class Camera {
         }
         if (Keyboard.isKeyDown(Keyboard.KEY_LSHIFT)){
             position.y -= 0.25f;
+        }
+        if (Keyboard.isKeyDown(Keyboard.KEY_E)){
+            yaw += 1;
+        }
+        if (Keyboard.isKeyDown(Keyboard.KEY_Q)){
+            yaw -= 1;
+        }
+        if (Keyboard.isKeyDown(Keyboard.KEY_2)){
+            pitch -= 1;
+        }
+        if (Keyboard.isKeyDown(Keyboard.KEY_F)){
+            pitch += 1;
         }
     }
 
