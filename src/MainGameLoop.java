@@ -8,6 +8,8 @@ import renderEngine.*;
 import models.RawModel;
 import terrain.Terrain;
 import textures.ModelTexture;
+import textures.TerrainTexture;
+import textures.TerrainTexturePack;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -115,10 +117,21 @@ public class MainGameLoop {
         entities.add(shedEntity);
         entities.add(shovelEntity);
 
-        Terrain terrain = new Terrain(-1, -1, loader, new ModelTexture(loader.loadTexture("grass")));
-        Terrain terrain2 = new Terrain(-1, 0, loader, new ModelTexture(loader.loadTexture("grass")));
-        Terrain terrain3 = new Terrain(0, 0, loader, new ModelTexture(loader.loadTexture("grass")));
-        Terrain terrain4 = new Terrain(0, -1, loader, new ModelTexture(loader.loadTexture("grass")));
+        /**
+         * Terrains
+         */
+        TerrainTexture backgroundTexture = new TerrainTexture(loader.loadTexture("grass"));
+        TerrainTexture rTexture = new TerrainTexture(loader.loadTexture("thingrass"));
+        TerrainTexture gTexture = new TerrainTexture(loader.loadTexture("dirt"));
+        TerrainTexture bTexture = new TerrainTexture(loader.loadTexture("gravel"));
+
+        TerrainTexturePack texturePack = new TerrainTexturePack(backgroundTexture, rTexture, gTexture, bTexture);
+        TerrainTexture blendMap = new TerrainTexture(loader.loadTexture("blendMap"));
+
+        Terrain terrain = new Terrain(0, -1, loader, texturePack, blendMap);
+        Terrain terrain2 = new Terrain(-1, -1, loader, texturePack, blendMap);
+        Terrain terrain3 = new Terrain(0, 0, loader, texturePack, blendMap);
+        Terrain terrain4 = new Terrain(-1, 0, loader, texturePack, blendMap);
 
         Light light = new Light(new Vector3f(10000, 50000, 50000), new Vector3f(1, 1, 1));
         Camera camera = new Camera();
