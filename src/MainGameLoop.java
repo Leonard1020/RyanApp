@@ -2,6 +2,8 @@ import entities.Camera;
 import entities.Entity;
 import entities.Light;
 import models.TexturedModel;
+import objConverter.ModelData;
+import objConverter.OBJFileLoader;
 import org.lwjgl.opengl.Display;
 import org.lwjgl.util.vector.Vector3f;
 import renderEngine.*;
@@ -20,134 +22,46 @@ import java.util.Random;
  */
 public class MainGameLoop {
 
+    private List<Entity> entities;
+    private List<Terrain> terrains;
+    private Loader loader;
+
     public static void main(String[] args){
         new MainGameLoop();
     }
 
     public MainGameLoop(){
         DisplayManager.createDisplay();
-        Loader loader = new Loader();
+        loader = new Loader();
+        entities = new ArrayList<Entity>();
+        terrains = new ArrayList<Terrain>();
 
-        /**
-         * Shack Entity
-         */
-        RawModel shackModel = OBJLoader.loadObjModel("shack", loader);
-        TexturedModel staticShackModel = new TexturedModel(shackModel, new ModelTexture(loader.loadTexture("shackTexture")));
-        ModelTexture shackTexture = staticShackModel.getTexture();
-        Entity shackEntity = new Entity(staticShackModel, new Vector3f(22, 0, -20), 0, 0, 0, 1.5f);
+        addEntity("shack", true, false, 1.5f, false);
+        addEntity("reelmower", false, false, 1, false);
+        addEntity("wheelbarrow", true, false, 1, false);
+        addEntity("shed", true, false, .75f, true);
+        addEntity("desk", true, false, 1.15f, true);
+        addEntity("shovel", false, false, .75f, true);
+        addEntity("fence", true, true, 1, true);
 
-        /**
-         * Desk Entity
-         */
-        RawModel deskModel = OBJLoader.loadObjModel("desk", loader);
-        TexturedModel staticDeskModel = new TexturedModel(deskModel, new ModelTexture(loader.loadTexture("oldwood")));
-        ModelTexture deskTexture = staticDeskModel.getTexture();
-        staticDeskModel.getTexture().setHasTransparency(true);
-        Entity deskEntity = new Entity(staticDeskModel, new Vector3f(7, 0, -20), 0, 0, 0, 1.15f);
+        addEntity("treewithleaves", false, false, 2, false);
+        addEntity("lowpolytree", false, false, 1, true);
+        addEntity("grass", true, true, 1, true);
+        addEntity("fern", true, true, 1, true);
 
-        /**
-         * Reel Mower Entity
-         */
-        RawModel reelMowerModel = OBJLoader.loadObjModel("reelmower", loader);
-        TexturedModel staticReelMowerModel = new TexturedModel(reelMowerModel, new ModelTexture(loader.loadTexture("reelmowerTexture")));
-        ModelTexture reelMowerTexture = staticReelMowerModel.getTexture();
-        Entity reelMowerEntity = new Entity(staticReelMowerModel, new Vector3f(0, 0, -20), 0, 0, 0, 1);
+        loadTerrain("grass", "thingrass", "dirt", "gravel", "blendMap");
 
-        /**
-         * Shed Entity
-         */
-        RawModel shedModel = OBJLoader.loadObjModel("shed", loader);
-        TexturedModel staticShedModel = new TexturedModel(shedModel, new ModelTexture(loader.loadTexture("shedTexture")));
-        ModelTexture shedTexture = staticShedModel.getTexture();
-        staticShedModel.getTexture().setHasTransparency(true);
-        //staticShedModel.getTexture().setUseFakeLighting(true);
-        Entity shedEntity = new Entity(staticShedModel, new Vector3f(-13, 0, -20), 0, 0, 0, 1);
-
-        /**
-         * Shovel Entity
-         */
-        RawModel shovelModel = OBJLoader.loadObjModel("shovel", loader);
-        TexturedModel staticShovelModel = new TexturedModel(shovelModel, new ModelTexture(loader.loadTexture("shovelTexture")));
-        ModelTexture shovelTexture = staticShovelModel.getTexture();
-        Entity shovelEntity = new Entity(staticShovelModel, new Vector3f(-3, 0, -20), 0, 0, 0, .75f);
-
-        /**
-         * Creates grass, trees, and ferns to fill the world
-         */
-        //tree
-        RawModel treeModel = OBJLoader.loadObjModel("treewithleaves", loader);
-        TexturedModel tree = new TexturedModel(treeModel, new ModelTexture(loader.loadTexture("treeTexture")));
-        //lowpolytree
-        RawModel lptreeModel = OBJLoader.loadObjModel("lowpolytree", loader);
-        TexturedModel lptree = new TexturedModel(lptreeModel, new ModelTexture(loader.loadTexture("lowpolytreeTexture")));
-        //grass
-        TexturedModel grass = new TexturedModel(OBJLoader.loadObjModel("grass", loader), new ModelTexture(loader.loadTexture("grassTexture")));
-        grass.getTexture().setHasTransparency(true);
-        grass.getTexture().setUseFakeLighting(true);
-        //fern
-        TexturedModel fern = new TexturedModel(OBJLoader.loadObjModel("fern", loader), new ModelTexture(loader.loadTexture("fern")));
-        fern.getTexture().setHasTransparency(true);
-        fern.getTexture().setUseFakeLighting(true);
-
-
-        List<Entity> entities = new ArrayList<Entity>();
-        Random random = new Random();
-        for (int i = 0; i < 2000; i++){
-            entities.add(new Entity(grass, new Vector3f(random.nextFloat()*1500-750, 0, random.nextFloat()*1500-750), 0, 0, 0, 1));
-            entities.add(new Entity(grass, new Vector3f(random.nextFloat()*1500-750, 0, random.nextFloat()*1500-750), 0, 0, 0, 1));
-            if (i > 500){
-                Entity e = new Entity(lptree, new Vector3f(random.nextFloat()*1500-750, 0, random.nextFloat()*1500-750), 0, 0, 0, 1);
-                e.setRotY(random.nextFloat() * 100);
-                e.setScale(random.nextFloat() * 1.2f);
-                if (e.getScale() < .3f){
-                    e.setScale(e.getScale() + .4f);
-                }
-                entities.add(e);
-                //entities.add(new Entity(lptree, new Vector3f(random.nextFloat()*800-400, 0, random.nextFloat()*800-400), 0, 0, 0, 1));
-            }
-            if (i > 1995){
-                entities.add(new Entity(tree, new Vector3f(random.nextFloat()*500-250, 0, random.nextFloat()*500-250), 0, 0, 0, 2));
-            }
-        }
-
-        //adds the single entities to the list
-        entities.add(shackEntity);
-        entities.add(deskEntity);
-        entities.add(reelMowerEntity);
-        entities.add(shedEntity);
-        entities.add(shovelEntity);
-
-        /**
-         * Terrains
-         */
-        TerrainTexture backgroundTexture = new TerrainTexture(loader.loadTexture("grass"));
-        TerrainTexture rTexture = new TerrainTexture(loader.loadTexture("thingrass"));
-        TerrainTexture gTexture = new TerrainTexture(loader.loadTexture("dirt"));
-        TerrainTexture bTexture = new TerrainTexture(loader.loadTexture("gravel"));
-
-        TerrainTexturePack texturePack = new TerrainTexturePack(backgroundTexture, rTexture, gTexture, bTexture);
-        TerrainTexture blendMap = new TerrainTexture(loader.loadTexture("blendMap"));
-
-        Terrain terrain = new Terrain(0, -1, loader, texturePack, blendMap);
-        Terrain terrain2 = new Terrain(-1, -1, loader, texturePack, blendMap);
-        Terrain terrain3 = new Terrain(0, 0, loader, texturePack, blendMap);
-        Terrain terrain4 = new Terrain(-1, 0, loader, texturePack, blendMap);
-
-        Light light = new Light(new Vector3f(10000, 50000, 50000), new Vector3f(1, 1, 1));
+        Light light = new Light(new Vector3f(10000, 40000, 30000), new Vector3f(1, 1, 1));
         Camera camera = new Camera();
 
         MasterRenderer renderer = new MasterRenderer();
         while(!Display.isCloseRequested()){
-            shovelEntity.increaseRotation(0, .2f, 0);
-            reelMowerEntity.increaseRotation(0, .2f, 0);
-            deskEntity.increaseRotation(0, .2f, 0);
 
             camera.move();
 
-            renderer.processTerrain(terrain);
-            renderer.processTerrain(terrain2);
-            renderer.processTerrain(terrain3);
-            renderer.processTerrain(terrain4);
+            for (Terrain terrain : terrains){
+                renderer.processTerrain(terrain);
+            }
 
             for (Entity entity : entities){
                 renderer.processEntity(entity);
@@ -159,5 +73,59 @@ public class MainGameLoop {
         renderer.cleanUp();
         loader.cleanUp();
         DisplayManager.closeDisplay();
+    }
+
+    private void addEntity(String object, boolean transparency, boolean fakeLight, float scale, boolean useOBJConverter){
+        Random random = new Random();
+        RawModel model;
+        if (useOBJConverter){
+            ModelData data = OBJFileLoader.loadOBJ(object);
+            model = loader.loadToVAO(data.getVertices(), data.getTextureCoords(), data.getNormals(), data.getIndices());
+        } else {
+            model = OBJLoader.loadObjModel(object, loader);
+        }
+        TexturedModel staticModel = new TexturedModel(model, new ModelTexture(loader.loadTexture(object + "Texture")));
+        staticModel.getTexture().setHasTransparency(transparency);
+        staticModel.getTexture().setUseFakeLighting(fakeLight);
+        if (object.equals("treewithleaves")){
+            for (int i = 0; i < 5; i++){
+                entities.add(new Entity(staticModel, new Vector3f(random.nextFloat()*600-300, 0, random.nextFloat()*600-300), 0, 0, 0, scale));
+            }
+        } else if (object.equals("lowpolytree")){
+            for (int i = 0; i < 500; i++){
+                Entity e = new Entity(staticModel, new Vector3f(random.nextFloat()*1500-750, 0, random.nextFloat()*1500-750), 0, 0, 0, scale);
+                e.setRotY(random.nextFloat() * 100);
+                e.setScale(random.nextFloat() * 1.2f);
+                if (e.getScale() < .3f){
+                    e.setScale(e.getScale() + .4f);
+                }
+                entities.add(e);
+            }
+        } else if (object.equals("grass")){
+            for (int i = 0; i < 4000; i++){
+                entities.add(new Entity(staticModel, new Vector3f(random.nextFloat()*1500-750, 0, random.nextFloat()*1500-750), 0, 0, 0, scale));
+            }
+        } else if (object.equals("fern")){
+            for (int i = 0; i < 100; i++){
+                entities.add(new Entity(staticModel, new Vector3f(random.nextFloat()*1500-750, 0, random.nextFloat()*1500-750), 0, 0, 0, scale));
+            }
+        } else {
+            entities.add(new Entity(staticModel, new Vector3f(random.nextFloat()*100-50, 0, -20), 0, 0, 0, scale));
+        }
+    }
+
+    private void loadTerrain(String background, String r, String g, String b, String blend){
+        TerrainTexture backgroundTexture = new TerrainTexture(loader.loadTexture(background));
+        TerrainTexture rTexture = new TerrainTexture(loader.loadTexture(r));
+        TerrainTexture gTexture = new TerrainTexture(loader.loadTexture(g));
+        TerrainTexture bTexture = new TerrainTexture(loader.loadTexture(b));
+
+        TerrainTexturePack texturePack = new TerrainTexturePack(backgroundTexture, rTexture, gTexture, bTexture);
+        TerrainTexture blendMap = new TerrainTexture(loader.loadTexture(blend));
+
+        terrains.add(new Terrain(0, -1, loader, texturePack, blendMap));
+        terrains.add(new Terrain(-1, -1, loader, texturePack, blendMap));
+        terrains.add(new Terrain(0, 0, loader, texturePack, blendMap));
+        terrains.add(new Terrain(-1, 0, loader, texturePack, blendMap));
     }
 }
