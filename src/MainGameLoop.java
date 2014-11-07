@@ -39,7 +39,7 @@ public class MainGameLoop {
         addEntity("shack", true, false, 1.5f, false);
         addEntity("reelmower", false, false, 1, false);
         addEntity("wheelbarrow", true, false, 1, false);
-        addEntity("shed", true, false, .75f, true);
+        addEntity("shed", true, false, 1, true);
         addEntity("desk", true, false, 1.15f, true);
         addEntity("shovel", false, false, .75f, true);
         addEntity("fence", true, true, 1, true);
