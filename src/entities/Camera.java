@@ -11,7 +11,7 @@ import java.awt.event.MouseListener;
  */
 public class Camera {
 
-    private Vector3f position = new Vector3f(0, 4, 0);
+    private Vector3f position = new Vector3f(0, 4, 10);
     private float pitch;
     private float yaw;
     private float roll;
@@ -29,7 +29,7 @@ public class Camera {
         if (Keyboard.isKeyDown(Keyboard.KEY_D)){
             position.x += 0.5f;
         }
-        if (Keyboard.isKeyDown(Keyboard.KEY_SPACE)){
+        if (Keyboard.isKeyDown(Keyboard.KEY_CAPITAL)){
             position.y += 0.5f;
         }
         if (Keyboard.isKeyDown(Keyboard.KEY_LSHIFT)){

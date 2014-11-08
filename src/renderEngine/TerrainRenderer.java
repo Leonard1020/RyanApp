@@ -9,7 +9,6 @@ import org.lwjgl.util.vector.Matrix4f;
 import org.lwjgl.util.vector.Vector3f;
 import shaders.TerrainShader;
 import terrain.Terrain;
-import textures.ModelTexture;
 import textures.TerrainTexturePack;
 import toolbox.Maths;
 
