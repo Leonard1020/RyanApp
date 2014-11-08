@@ -36,18 +36,20 @@ public class MainGameLoop {
         entities = new ArrayList<Entity>();
         terrains = new ArrayList<Terrain>();
 
-        addEntity("shack", true, false, 1.5f, false);
-        addEntity("reelmower", false, false, 1, false);
-        addEntity("wheelbarrow", true, false, 1, false);
-        addEntity("shed", true, false, 1, true);
-        addEntity("desk", true, false, 1.15f, true);
-        addEntity("shovel", false, false, .75f, true);
-        addEntity("fence", true, true, 1, true);
+        addEntity("shack", true, false, 1.75f);
+        addEntity("reelmower", false, false, 1);
+        addEntity("wheelbarrow", true, false, 1);
+        addEntity("shed", true, false, 1);
+        addEntity("desk", true, false, 1.15f);
+        addEntity("shovel", false, false, .75f);
+        addEntity("fence", true, false, 1);
 
-        addEntity("treewithleaves", false, false, 2, false);
-        addEntity("lowpolytree", false, false, 1, true);
-        addEntity("grass", true, true, 1, true);
-        addEntity("fern", true, true, 1, true);
+        addEntity("treewithleaves", false, false, 2);
+        addEntity("lowpolytree", false, false, 1);
+        addEntity("grass", true, true, 1);
+        addEntity("fern", true, true, 1);
+
+
 
         loadTerrain("grass", "thingrass", "dirt", "gravel", "blendMap");
 
@@ -75,13 +77,13 @@ public class MainGameLoop {
         DisplayManager.closeDisplay();
     }
 
-    private void addEntity(String object, boolean transparency, boolean fakeLight, float scale, boolean useOBJConverter){
+    private void addEntity(String object, boolean transparency, boolean fakeLight, float scale){
         Random random = new Random();
         RawModel model;
-        if (useOBJConverter){
+        try {
             ModelData data = OBJFileLoader.loadOBJ(object);
             model = loader.loadToVAO(data.getVertices(), data.getTextureCoords(), data.getNormals(), data.getIndices());
-        } else {
+        } catch (ArrayIndexOutOfBoundsException e) {
             model = OBJLoader.loadObjModel(object, loader);
         }
         TexturedModel staticModel = new TexturedModel(model, new ModelTexture(loader.loadTexture(object + "Texture")));
@@ -92,7 +94,7 @@ public class MainGameLoop {
                 entities.add(new Entity(staticModel, new Vector3f(random.nextFloat()*600-300, 0, random.nextFloat()*600-300), 0, 0, 0, scale));
             }
         } else if (object.equals("lowpolytree")){
-            for (int i = 0; i < 500; i++){
+            for (int i = 0; i < 800; i++){
                 Entity e = new Entity(staticModel, new Vector3f(random.nextFloat()*1500-750, 0, random.nextFloat()*1500-750), 0, 0, 0, scale);
                 e.setRotY(random.nextFloat() * 100);
                 e.setScale(random.nextFloat() * 1.2f);
@@ -102,7 +104,7 @@ public class MainGameLoop {
                 entities.add(e);
             }
         } else if (object.equals("grass")){
-            for (int i = 0; i < 4000; i++){
+            for (int i = 0; i < 2000; i++){
                 entities.add(new Entity(staticModel, new Vector3f(random.nextFloat()*1500-750, 0, random.nextFloat()*1500-750), 0, 0, 0, scale));
             }
         } else if (object.equals("fern")){
