@@ -39,13 +39,13 @@ public class MainGameLoop {
         entities = new ArrayList<Entity>();
         terrains = new ArrayList<Terrain>();
 
-        entities.add(createEntity(createModel("shack", true, false), random.nextFloat() * 100 - 50, -20, 1.75f));
-        entities.add(createEntity(createModel("reelmower", true, false), random.nextFloat() * 100 - 50, -20, 1));
-        entities.add(createEntity(createModel("wheelbarrow", true, false), random.nextFloat() * 100 - 50, -20, 1));
-        entities.add(createEntity(createModel("shed", true, false), random.nextFloat() * 100 - 50, -20, 1));
-        entities.add(createEntity(createModel("desk", true, false), random.nextFloat() * 100 - 50, -20, 1.15f));
-        entities.add(createEntity(createModel("shovel", true, false), random.nextFloat() * 100 - 50, -20, .75f));
-        entities.add(createEntity(createModel("fence", true, false), random.nextFloat() * 100 - 50, -20, 1));
+        entities.add(createEntity(createModel("shack", true, false), random.nextFloat() * 100 - 50, -20, 0, 1.75f));
+        entities.add(createEntity(createModel("reelmower", true, false), random.nextFloat() * 100 - 50, 0, -20, 1));
+        entities.add(createEntity(createModel("wheelbarrow", true, false), random.nextFloat() * 100 - 50, 0, -20, 1));
+        entities.add(createEntity(createModel("shed", true, false), random.nextFloat() * 100 - 50, -20, 0, 1));
+        entities.add(createEntity(createModel("desk", true, false), random.nextFloat() * 100 - 50, -20, 0, 1.15f));
+        entities.add(createEntity(createModel("shovel", true, false), random.nextFloat() * 100 - 50, -20, 0, .75f));
+        entities.add(createEntity(createModel("fence", true, false), random.nextFloat() * 100 - 50, -40, -90, 1));
 
         createWorld();
 
@@ -75,8 +75,8 @@ public class MainGameLoop {
         DisplayManager.closeDisplay();
     }
 
-    private Entity createEntity(TexturedModel model, float xPosition, float zPosition, float scale){
-        return new Entity(model, new Vector3f(xPosition, 0, zPosition), 0, 0, 0, scale);
+    private Entity createEntity(TexturedModel model, float xPosition, float zPosition, float rotation, float scale){
+        return new Entity(model, new Vector3f(xPosition, 0, zPosition), 0, rotation, 0, scale);
     }
 
     private TexturedModel createModel(String object, boolean transparency, boolean fakeLight) {
@@ -101,11 +101,11 @@ public class MainGameLoop {
         TexturedModel fern = createModel("fern", true, true);
         for (int i = 0; i < 2000; i++){
             if (i < 5){
-                entities.add(createEntity(tree, random.nextFloat()*600-300, random.nextFloat()*600-300, 2));
+                entities.add(createEntity(tree, random.nextFloat()*600-300, random.nextFloat()*600-300, 0, 2));
             } else if (i < 50){
-                entities.add(createEntity(fern, random.nextFloat()*1500-750, random.nextFloat()*1500-750, 1));
+                entities.add(createEntity(fern, random.nextFloat()*1500-750, random.nextFloat()*1500-750, 0, 1));
             } else if (i < 1000){
-                Entity e = createEntity(lptree, random.nextFloat()*1500-750, random.nextFloat()*1500-750, 1);
+                Entity e = createEntity(lptree, random.nextFloat()*1500-750, random.nextFloat()*1500-750, 0, 1);
                 e.setRotY(random.nextFloat() * 1000);
                 e.setScale(random.nextFloat() * 1.2f);
                 if (e.getScale() < .3f){
@@ -113,8 +113,8 @@ public class MainGameLoop {
                 }
                 entities.add(e);
             } else {
-                entities.add(createEntity(grass, random.nextFloat()*1500-750, random.nextFloat()*1500-750, 1));
-                entities.add(createEntity(grass, random.nextFloat()*1500-750, random.nextFloat()*1500-750, 1));
+                entities.add(createEntity(grass, random.nextFloat()*1500-750, random.nextFloat()*1500-750, 0, 1));
+                entities.add(createEntity(grass, random.nextFloat()*1500-750, random.nextFloat()*1500-750, 0, 1));
             }
         }
     }
