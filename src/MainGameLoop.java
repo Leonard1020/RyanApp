@@ -26,6 +26,7 @@ public class MainGameLoop {
     private List<Entity> entities;
     private List<Terrain> terrains;
     private Loader loader;
+    Random random;
 
     public static void main(String[] args){
         new MainGameLoop();
@@ -34,28 +35,23 @@ public class MainGameLoop {
     public MainGameLoop(){
         DisplayManager.createDisplay();
         loader = new Loader();
+        random = new Random();
         entities = new ArrayList<Entity>();
         terrains = new ArrayList<Terrain>();
 
-        addEntity("shack", true, false, 1.75f);
-        addEntity("reelmower", false, false, 1);
-        addEntity("wheelbarrow", true, false, 1);
-        addEntity("shed", true, false, 1);
-        addEntity("desk", true, false, 1.15f);
-        addEntity("shovel", false, false, .75f);
-        addEntity("fence", true, false, 1);
+        entities.add(createEntity(createModel("shack", true, false), random.nextFloat() * 100 - 50, -20, 1.75f));
+        entities.add(createEntity(createModel("reelmower", true, false), random.nextFloat() * 100 - 50, -20, 1));
+        entities.add(createEntity(createModel("wheelbarrow", true, false), random.nextFloat() * 100 - 50, -20, 1));
+        entities.add(createEntity(createModel("shed", true, false), random.nextFloat() * 100 - 50, -20, 1));
+        entities.add(createEntity(createModel("desk", true, false), random.nextFloat() * 100 - 50, -20, 1.15f));
+        entities.add(createEntity(createModel("shovel", true, false), random.nextFloat() * 100 - 50, -20, .75f));
+        entities.add(createEntity(createModel("fence", true, false), random.nextFloat() * 100 - 50, -20, 1));
 
-        addEntity("treewithleaves", false, false, 2);
-        addEntity("lowpolytree", false, false, 1);
-        addEntity("grass", true, true, 1);
-        addEntity("fern", true, true, 1);
+        createWorld();
 
-        loadTerrain("grass", "thingrass", "dirt", "gravel", "blendMap");
-
-        //////////////////////PLAYER//////////////////////////////
-        RawModel model = OBJLoader.loadObjModel("dragon", loader);
-        TexturedModel dragon = new TexturedModel(model, new ModelTexture(loader.loadTexture("bark")));
-        Player player = new Player(dragon, new Vector3f(0, 0, -10), 0, 0, 0, 1);
+        //////////////////////PLAYER/////////////////////////
+        TexturedModel playerModel = createModel("person", false, false);
+        Player player = new Player(playerModel, new Vector3f(0, 0, -10), 0, 0, 0, .6f);
 
         Light light = new Light(new Vector3f(10000, 40000, 30000), new Vector3f(1, 1, 1));
         Camera camera = new Camera();
@@ -65,15 +61,12 @@ public class MainGameLoop {
             camera.move();
             player.move();
             renderer.processEntity(player);
-
             for (Terrain terrain : terrains){
                 renderer.processTerrain(terrain);
             }
-
             for (Entity entity : entities){
                 renderer.processEntity(entity);
             }
-
             renderer.render(light, camera);
             DisplayManager.updateDisplay();
         }
@@ -82,8 +75,11 @@ public class MainGameLoop {
         DisplayManager.closeDisplay();
     }
 
-    private void addEntity(String object, boolean transparency, boolean fakeLight, float scale){
-        Random random = new Random();
+    private Entity createEntity(TexturedModel model, float xPosition, float zPosition, float scale){
+        return new Entity(model, new Vector3f(xPosition, 0, zPosition), 0, 0, 0, scale);
+    }
+
+    private TexturedModel createModel(String object, boolean transparency, boolean fakeLight) {
         RawModel model;
         try {
             ModelData data = OBJFileLoader.loadOBJ(object);
@@ -94,36 +90,32 @@ public class MainGameLoop {
         TexturedModel staticModel = new TexturedModel(model, new ModelTexture(loader.loadTexture(object + "Texture")));
         staticModel.getTexture().setHasTransparency(transparency);
         staticModel.getTexture().setUseFakeLighting(fakeLight);
+        return staticModel;
+    }
 
-        /**
-         * ####################### Render would be much cleaner is this was a single loop #############################
-         */
-
-        if (object.equals("treewithleaves")){
-            for (int i = 0; i < 5; i++){
-                entities.add(new Entity(staticModel, new Vector3f(random.nextFloat()*600-300, 0, random.nextFloat()*600-300), 0, 0, 0, scale));
-            }
-        } else if (object.equals("lowpolytree")){
-            for (int i = 0; i < 800; i++){
-                Entity e = new Entity(staticModel, new Vector3f(random.nextFloat()*1500-750, 0, random.nextFloat()*1500-750), 0, 0, 0, scale);
-                e.setRotY(random.nextFloat() * 100);
+    private void createWorld(){
+        loadTerrain("grass", "thingrass", "dirt", "gravel", "blendMap");
+        TexturedModel tree = createModel("treewithleaves", false, false);
+        TexturedModel lptree = createModel("lowpolytree", false, false);
+        TexturedModel grass = createModel("grass", true, true);
+        TexturedModel fern = createModel("fern", true, true);
+        for (int i = 0; i < 2000; i++){
+            if (i < 5){
+                entities.add(createEntity(tree, random.nextFloat()*600-300, random.nextFloat()*600-300, 2));
+            } else if (i < 50){
+                entities.add(createEntity(fern, random.nextFloat()*1500-750, random.nextFloat()*1500-750, 1));
+            } else if (i < 1000){
+                Entity e = createEntity(lptree, random.nextFloat()*1500-750, random.nextFloat()*1500-750, 1);
+                e.setRotY(random.nextFloat() * 1000);
                 e.setScale(random.nextFloat() * 1.2f);
                 if (e.getScale() < .3f){
                     e.setScale(e.getScale() + .4f);
                 }
                 entities.add(e);
+            } else {
+                entities.add(createEntity(grass, random.nextFloat()*1500-750, random.nextFloat()*1500-750, 1));
+                entities.add(createEntity(grass, random.nextFloat()*1500-750, random.nextFloat()*1500-750, 1));
             }
-        } else if (object.equals("grass")){
-            for (int i = 0; i < 1000; i++){
-                entities.add(new Entity(staticModel, new Vector3f(random.nextFloat()*1500-750, 0, random.nextFloat()*1500-750), 0, 0, 0, scale));
-                entities.add(new Entity(staticModel, new Vector3f(random.nextFloat()*1500-750, 0, random.nextFloat()*1500-750), 0, 0, 0, scale));
-            }
-        } else if (object.equals("fern")){
-            for (int i = 0; i < 50; i++){
-                entities.add(new Entity(staticModel, new Vector3f(random.nextFloat()*1500-750, 0, random.nextFloat()*1500-750), 0, 0, 0, scale));
-            }
-        } else {
-            entities.add(new Entity(staticModel, new Vector3f(random.nextFloat()*100-50, 0, -20), 0, 0, 0, scale));
         }
     }
 

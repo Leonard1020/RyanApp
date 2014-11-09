@@ -10,7 +10,7 @@ import renderEngine.DisplayManager;
  */
 public class Player extends Entity{
 
-    private static final float RUN_SPEED = 20;
+    private static final float WALK_SPEED = 10;
     private static final float TURN_SPEED = 160;
     private static final float GRAVITY = -40;
     private static final float JUMP_POWER = 15;
@@ -52,17 +52,17 @@ public class Player extends Entity{
     }
 
     private void checkInputs(){
-        if (Keyboard.isKeyDown(Keyboard.KEY_UP)){
-            currentSpeed = RUN_SPEED;
-        } else if (Keyboard.isKeyDown(Keyboard.KEY_DOWN)){
-            currentSpeed = -RUN_SPEED;
+        if (Keyboard.isKeyDown(Keyboard.KEY_W)){
+            currentSpeed = WALK_SPEED;
+        } else if (Keyboard.isKeyDown(Keyboard.KEY_S)){
+            currentSpeed = -WALK_SPEED;
         } else {
             currentSpeed = 0;
         }
 
-        if (Keyboard.isKeyDown(Keyboard.KEY_LEFT)){
+        if (Keyboard.isKeyDown(Keyboard.KEY_A)){
             currentTurnSpeed = TURN_SPEED;
-        } else if (Keyboard.isKeyDown(Keyboard.KEY_RIGHT)){
+        } else if (Keyboard.isKeyDown(Keyboard.KEY_D)){
             currentTurnSpeed = -TURN_SPEED;
         } else {
             currentTurnSpeed = 0;

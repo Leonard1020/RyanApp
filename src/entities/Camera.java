@@ -17,22 +17,22 @@ public class Camera {
     private float roll;
 
     public void move(){
-        if (Keyboard.isKeyDown(Keyboard.KEY_W)){
+        if (Keyboard.isKeyDown(Keyboard.KEY_UP)){
             position.z -= 0.5f;
         }
-        if (Keyboard.isKeyDown(Keyboard.KEY_S)){
+        if (Keyboard.isKeyDown(Keyboard.KEY_DOWN)){
             position.z += 0.5f;
         }
-        if (Keyboard.isKeyDown(Keyboard.KEY_A)){
+        if (Keyboard.isKeyDown(Keyboard.KEY_LEFT)){
             position.x -= 0.5f;
         }
-        if (Keyboard.isKeyDown(Keyboard.KEY_D)){
+        if (Keyboard.isKeyDown(Keyboard.KEY_RIGHT)){
             position.x += 0.5f;
         }
-        if (Keyboard.isKeyDown(Keyboard.KEY_CAPITAL)){
+        if (Keyboard.isKeyDown(Keyboard.KEY_RETURN)){
             position.y += 0.5f;
         }
-        if (Keyboard.isKeyDown(Keyboard.KEY_LSHIFT)){
+        if (Keyboard.isKeyDown(Keyboard.KEY_RSHIFT)){
             position.y -= 0.5f;
         }
         if (Mouse.isButtonDown(0)){
