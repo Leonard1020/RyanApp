@@ -40,8 +40,8 @@ public class MainGameLoop {
         terrains = new ArrayList<Terrain>();
 
         entities.add(createEntity(createModel("shack", true, false), random.nextFloat() * 100 - 50, -20, 0, 1.75f));
-        entities.add(createEntity(createModel("reelmower", true, false), random.nextFloat() * 100 - 50, 0, -20, 1));
-        entities.add(createEntity(createModel("wheelbarrow", true, false), random.nextFloat() * 100 - 50, 0, -20, 1));
+        entities.add(createEntity(createModel("reelmower", true, false), random.nextFloat() * 100 - 50, -20, 0, 1));
+        entities.add(createEntity(createModel("wheelbarrow", true, false), random.nextFloat() * 100 - 50, -20, 0, 1));
         entities.add(createEntity(createModel("shed", true, false), random.nextFloat() * 100 - 50, -20, 0, 1));
         entities.add(createEntity(createModel("desk", true, false), random.nextFloat() * 100 - 50, -20, 0, 1.15f));
         entities.add(createEntity(createModel("shovel", true, false), random.nextFloat() * 100 - 50, -20, 0, .75f));
