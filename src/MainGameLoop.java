@@ -50,11 +50,11 @@ public class MainGameLoop {
         createWorld();
 
         //////////////////////PLAYER/////////////////////////
-        TexturedModel playerModel = createModel("person", false, false);
-        Player player = new Player(playerModel, new Vector3f(0, 0, -10), 0, 0, 0, .6f);
+        TexturedModel playerModel = createModel("player", false, false);
+        Player player = new Player(playerModel, new Vector3f(0, 0, -10), 0, 0, 0, .9f);
 
         Light light = new Light(new Vector3f(10000, 40000, 30000), new Vector3f(1, 1, 1));
-        Camera camera = new Camera();
+        Camera camera = new Camera(player);
 
         MasterRenderer renderer = new MasterRenderer();
         while(!Display.isCloseRequested()){

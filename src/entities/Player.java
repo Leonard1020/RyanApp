@@ -10,10 +10,10 @@ import renderEngine.DisplayManager;
  */
 public class Player extends Entity{
 
-    private static final float WALK_SPEED = 10;
+    private static final float WALK_SPEED = 30;
     private static final float TURN_SPEED = 160;
-    private static final float GRAVITY = -40;
-    private static final float JUMP_POWER = 15;
+    private static final float GRAVITY = -80;
+    private static final float JUMP_POWER = 25;
 
     private static final float TERRAIN_HEIGHT = 0;
 
@@ -67,7 +67,6 @@ public class Player extends Entity{
         } else {
             currentTurnSpeed = 0;
         }
-
         if (Keyboard.isKeyDown(Keyboard.KEY_SPACE)){
             jump();
         }
