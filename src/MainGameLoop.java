@@ -108,9 +108,10 @@ public class MainGameLoop {
         TexturedModel tree = createModel("treewithleaves", false, false);
         TexturedModel lptree = createModel("lowpolytree", false, false);
         TexturedModel grass = createModel("grass", true, true);
+        TexturedModel flower = createModel("flower", true, true);
         TexturedModel fern = createModel("fern", true, true);
         for (int i = 0; i < 2000; i++){
-            if (i < 5){
+            if (i < 10){
                 entities.add(createEntity(tree, random.nextFloat()*600-300, random.nextFloat()*600-300, 0, 2));
             } else if (i < 50){
                 entities.add(createEntity(fern, random.nextFloat()*1500-750, random.nextFloat()*1500-750, 0, 1));
@@ -125,6 +126,9 @@ public class MainGameLoop {
             } else {
                 entities.add(createEntity(grass, random.nextFloat()*1500-750, random.nextFloat()*1500-750, 0, 1));
                 entities.add(createEntity(grass, random.nextFloat()*1500-750, random.nextFloat()*1500-750, 0, 1));
+                if (i%7 == 0){
+                    entities.add(createEntity(flower, random.nextFloat()*1500-750, random.nextFloat()*1500-750, 0, 1));
+                }
             }
         }
     }
