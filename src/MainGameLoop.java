@@ -23,6 +23,8 @@ import java.util.Random;
  */
 public class MainGameLoop {
 
+    private String heightMap = "heightMap";
+    private String blendMap = "blendMap";
     private List<Entity> entities;
     private List<Terrain> terrains;
     private Loader loader;
@@ -104,7 +106,7 @@ public class MainGameLoop {
     }
 
     private void createWorld(){
-        loadTerrain("grass", "thingrass", "dirt", "gravel", "blendMap");
+        loadTerrain("grass", "thingrass", "dirt", "gravel", blendMap);
         TexturedModel tree = createModel("treewithleaves", false, false);
         TexturedModel lptree = createModel("lowpolytree", false, false);
         TexturedModel grass = createModel("grass", true, true);
@@ -142,9 +144,9 @@ public class MainGameLoop {
         TerrainTexturePack texturePack = new TerrainTexturePack(backgroundTexture, rTexture, gTexture, bTexture);
         TerrainTexture blendMap = new TerrainTexture(loader.loadTexture(blend));
 
-        terrains.add(new Terrain(0, -1, loader, texturePack, blendMap));
-        terrains.add(new Terrain(-1, -1, loader, texturePack, blendMap));
-        terrains.add(new Terrain(0, 0, loader, texturePack, blendMap));
-        terrains.add(new Terrain(-1, 0, loader, texturePack, blendMap));
+        terrains.add(new Terrain(0, -1, loader, texturePack, blendMap, heightMap));
+        terrains.add(new Terrain(-1, -1, loader, texturePack, blendMap, heightMap));
+        terrains.add(new Terrain(0, 0, loader, texturePack, blendMap, heightMap));
+        terrains.add(new Terrain(-1, 0, loader, texturePack, blendMap, heightMap));
     }
 }
