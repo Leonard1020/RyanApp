@@ -12,6 +12,8 @@ public class Player extends Entity{
 
     private static final float WALK_SPEED = 25;
     private static final float SIDE_SPEED = 15;
+    private static final float SPRINT_SPEED = 45;
+    private static final float CROUCH_SPEED = 10;
     private static final float TURN_SPEED = 160;
     private static final float GRAVITY = -80;
     private static final float JUMP_POWER = 25;
@@ -54,9 +56,19 @@ public class Player extends Entity{
 
     private void checkInputs(){
         if (Keyboard.isKeyDown(Keyboard.KEY_W)){
+            if (Keyboard.isKeyDown(Keyboard.KEY_LSHIFT)){
+                currentSpeed = SPRINT_SPEED;
+            } else if (Keyboard.isKeyDown(Keyboard.KEY_LCONTROL)){
+                currentSpeed = CROUCH_SPEED;
+            } else {
             currentSpeed = WALK_SPEED;
+            }
         } else if (Keyboard.isKeyDown(Keyboard.KEY_S)){
-            currentSpeed = -WALK_SPEED;
+            if (Keyboard.isKeyDown(Keyboard.KEY_LCONTROL)){
+                currentSpeed = -CROUCH_SPEED;
+            } else {
+                currentSpeed = -WALK_SPEED;
+            }
         } else {
             currentSpeed = 0;
         }

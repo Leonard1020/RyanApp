@@ -1,11 +1,7 @@
 package entities;
 
-import org.lwjgl.input.Keyboard;
 import org.lwjgl.input.Mouse;
 import org.lwjgl.util.vector.Vector3f;
-import toolbox.Maths;
-
-import java.awt.event.MouseListener;
 
 /**
  * Created by leonardj on 10/3/14.
