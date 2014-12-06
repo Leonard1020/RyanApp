@@ -4,21 +4,19 @@ import models.TexturedModel;
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.util.vector.Vector3f;
 import renderEngine.DisplayManager;
+import terrain.Terrain;
 
 /**
  * Created by leonardj on 11/8/2014.
  */
 public class Player extends Entity{
 
-    private static final float WALK_SPEED = 25;
-    private static final float SIDE_SPEED = 15;
-    private static final float SPRINT_SPEED = 45;
-    private static final float CROUCH_SPEED = 10;
+    private static final float WALK_SPEED = 40;
+    private static final float SPRINT_SPEED = 60;
+    private static final float CROUCH_SPEED = 20;
     private static final float TURN_SPEED = 160;
     private static final float GRAVITY = -80;
     private static final float JUMP_POWER = 25;
-
-    private static final float TERRAIN_HEIGHT = 0;
 
     private float currentSpeed = 0;
     private float currentTurnSpeed = 0;
@@ -30,7 +28,7 @@ public class Player extends Entity{
         super(model, position, rotX, rotY, rotZ, scale);
     }
 
-    public void move(){
+    public void move(Terrain terrain){
         checkInputs();
         super.increaseRotation(0, currentTurnSpeed * DisplayManager.getFrameTimeSeconds(), 0);
         float distance = currentSpeed * DisplayManager.getFrameTimeSeconds();
@@ -39,10 +37,11 @@ public class Player extends Entity{
         super.increasePosition(dx, 0, dz);
         upwardsSpeed += GRAVITY * DisplayManager.getFrameTimeSeconds();
         super.increasePosition(0, upwardsSpeed * DisplayManager.getFrameTimeSeconds(), 0);
-        if (super.getPosition().y < TERRAIN_HEIGHT){
+        float terrainHeight = terrain.getHeightOfTerrain(super.getPosition().x, super.getPosition().z);
+        if (super.getPosition().y < terrainHeight){
             upwardsSpeed = 0;
             isInAir = false;
-            super.getPosition().y = TERRAIN_HEIGHT;
+            super.getPosition().y = terrainHeight;
         }
     }
 
@@ -51,7 +50,6 @@ public class Player extends Entity{
             upwardsSpeed = JUMP_POWER;
             isInAir = true;
         }
-
     }
 
     private void checkInputs(){
