@@ -24,10 +24,10 @@ public class MainGameLoop {
 
     private String heightMap = "heightMap";
     private String blendMap = "blendMap";
-    private List<Entity> entities;
+    private List<Entity> entities = new ArrayList<Entity>();
     private Terrain terrain;
-    private Loader loader;
-    Random random;
+    private Loader loader = new Loader();
+    private Random random = new Random();
 
     public static void main(String[] args){
         new MainGameLoop();
@@ -35,10 +35,6 @@ public class MainGameLoop {
 
     public MainGameLoop(){
         DisplayManager.createDisplay();
-        loader = new Loader();
-        random = new Random();
-        entities = new ArrayList<Entity>();
-
         createWorld();
 
         entities.add(createEntity(createModel("shack", true, false), 30, -20, 0, 1.75f));
@@ -53,6 +49,7 @@ public class MainGameLoop {
         TexturedModel playerModel = createModel("midpolyPerson", false, false);
         Player player = new Player(playerModel, new Vector3f(0, 0, -10), 0, 0, 0, 1.1f);
 
+        ///////////////LIGHTING AND CAMERA///////////////////
         Light light = new Light(new Vector3f(10000, 40000, 30000), new Vector3f(1, 1, 1));
         Camera camera = new Camera(player);
 
