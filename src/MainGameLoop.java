@@ -37,16 +37,16 @@ public class MainGameLoop {
         DisplayManager.createDisplay();
         createWorld();
 
-        entities.add(createEntity(createModel("shack", true, false), 30, -20, 0, 1.75f));
-        entities.add(createEntity(createModel("reelmower", true, false), -20, -20, 0, 1));
-        entities.add(createEntity(createModel("wheelbarrow", true, false), -10, -20, 0, 1));
-        entities.add(createEntity(createModel("shed", true, false), 10, -20, 0, 1));
-        entities.add(createEntity(createModel("desk", true, false), 0, -20, 0, 1.15f));
-        entities.add(createEntity(createModel("shovel", true, false), -5, -20, 0, .75f));
-        entities.add(createEntity(createModel("fence", true, false), random.nextFloat() * 100 - 50, -40, -90, 1));
+        entities.add(createEntity(createModel("shack", 1, true, false), 30, -20, 0, 1.75f));
+        entities.add(createEntity(createModel("reelmower", 1, true, false), -20, -20, 0, 1));
+        entities.add(createEntity(createModel("wheelbarrow", 1, true, false), -10, -20, 0, 1));
+        entities.add(createEntity(createModel("shed", 1, true, false), 10, -20, 0, 1));
+        entities.add(createEntity(createModel("desk", 1, true, false), 0, -20, 0, 1.15f));
+        entities.add(createEntity(createModel("shovel", 1, true, false), -5, -20, 0, .75f));
+        entities.add(createEntity(createModel("fence", 1, true, false), random.nextFloat() * 100 - 50, -40, -90, 1));
 
         //////////////////////PLAYER/////////////////////////
-        TexturedModel playerModel = createModel("midpolyPerson", false, false);
+        TexturedModel playerModel = createModel("midpolyPerson", 1, false, false);
         Player player = new Player(playerModel, new Vector3f(0, 0, -10), 0, 0, 0, 1.1f);
 
         ///////////////LIGHTING AND CAMERA///////////////////
@@ -76,7 +76,12 @@ public class MainGameLoop {
         return new Entity(model, new Vector3f(xPosition, yPosition, zPosition), 0, rotation, 0, scale);
     }
 
-    private TexturedModel createModel(String object, boolean transparency, boolean fakeLight) {
+    private Entity createEntity(TexturedModel model, int textureNum, float xPosition, float zPosition, float rotation, float scale){
+        float yPosition = terrain.getHeightOfTerrain(xPosition, zPosition);
+        return new Entity(model, textureNum, new Vector3f(xPosition, yPosition, zPosition), 0, rotation, 0, scale);
+    }
+
+    private TexturedModel createModel(String object, int textureRows, boolean transparency, boolean fakeLight) {
         RawModel model;
         try {
             ModelData data = OBJFileLoader.loadOBJ(object);
@@ -84,7 +89,9 @@ public class MainGameLoop {
         } catch (ArrayIndexOutOfBoundsException e) {
             model = OBJLoader.loadObjModel(object, loader);
         }
-        TexturedModel staticModel = new TexturedModel(model, new ModelTexture(loader.loadTexture(object + "Texture")));
+        ModelTexture texture = new ModelTexture(loader.loadTexture(object + "Texture"));
+        texture.setNumOfRows(textureRows);
+        TexturedModel staticModel = new TexturedModel(model, texture);
         staticModel.getTexture().setHasTransparency(transparency);
         staticModel.getTexture().setUseFakeLighting(fakeLight);
         return staticModel;
@@ -92,19 +99,18 @@ public class MainGameLoop {
 
     private void createWorld(){
         loadTerrain("grass", "thingrass", "dirt", "gravel", blendMap);
-        TexturedModel tree = createModel("treewithleaves", false, false);
-        TexturedModel lptree = createModel("lowpolytree", false, false);
-        TexturedModel grass = createModel("grass", true, true);
-        TexturedModel flower = createModel("flower", true, true);
-        TexturedModel fern = createModel("fern", true, true);
+        TexturedModel tree = createModel("treewithleaves", 1, false, false);
+        TexturedModel lptree = createModel("lowpolytree", 1, false, false);
+        TexturedModel grass = createModel("grass", 4, true, true);
+        TexturedModel fern = createModel("fern", 2, true, true);
         for (int i = 0; i < 2000; i++){
             float x = random.nextFloat() * 1500 - 750;
             float z = random.nextFloat() * 1500 - 750;
             float rotation = random.nextFloat() * 360;
             if (i < 10){
                 entities.add(createEntity(tree, x, z, rotation, 2));
-            } else if (i < 50){
-                entities.add(createEntity(fern, x, z, rotation, 1));
+            } else if (i < 100){
+                entities.add(createEntity(fern, random.nextInt(4), x, z, rotation, 1));
             } else if (i < 1000){
                 Entity e = createEntity(lptree, x, z, rotation, 1);
                 e.setScale(random.nextFloat() * 1.2f);
@@ -113,10 +119,14 @@ public class MainGameLoop {
                 }
                 entities.add(e);
             } else {
-                entities.add(createEntity(grass, x, z, rotation, 1));
-                entities.add(createEntity(grass, x, z, rotation, 1));
+                entities.add(createEntity(grass, 0, x, z, rotation, 1.2f));
+                x = random.nextFloat() * 1500 - 750;
+                z = random.nextFloat() * 1500 - 750;
+                entities.add(createEntity(grass, 4, x, z, rotation, 1.2f));
                 if (i%7 == 0){
-                    entities.add(createEntity(flower, x, z, rotation, 1));
+                    x = random.nextFloat() * 1500 - 750;
+                    z = random.nextFloat() * 1500 - 750;
+                    entities.add(createEntity(grass, 1, x, z, rotation, 1.5f));
                 }
             }
         }
