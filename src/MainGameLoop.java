@@ -2,10 +2,13 @@ import entities.Camera;
 import entities.Entity;
 import entities.Light;
 import entities.Player;
+import gui.GUIRenderer;
+import gui.GUITexture;
 import models.TexturedModel;
 import objConverter.ModelData;
 import objConverter.OBJFileLoader;
 import org.lwjgl.opengl.Display;
+import org.lwjgl.util.vector.Vector2f;
 import org.lwjgl.util.vector.Vector3f;
 import renderEngine.*;
 import models.RawModel;
@@ -53,6 +56,12 @@ public class MainGameLoop {
         Light light = new Light(new Vector3f(10000, 40000, 30000), new Vector3f(1, 1, 1));
         Camera camera = new Camera(player);
 
+        //////////////////GUIs///////////////////
+        List<GUITexture> guis = new ArrayList<GUITexture>();
+        GUITexture gui = new GUITexture(loader.loadTexture("health"), new Vector2f(-.70f, -.75f), new Vector2f(0.15f, 0.25f));
+        guis.add(gui);
+        GUIRenderer guiRenderer = new GUIRenderer(loader);
+
         MasterRenderer renderer = new MasterRenderer();
         while(!Display.isCloseRequested()){
             camera.move();
@@ -64,8 +73,10 @@ public class MainGameLoop {
                 renderer.processEntity(entity);
             }
             renderer.render(light, camera);
+            guiRenderer.render(guis);
             DisplayManager.updateDisplay();
         }
+        guiRenderer.cleanUp();
         renderer.cleanUp();
         loader.cleanUp();
         DisplayManager.closeDisplay();
