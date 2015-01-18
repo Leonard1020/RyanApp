@@ -28,6 +28,7 @@ public class MainGameLoop {
     private String heightMap = "heightMap";
     private String blendMap = "blendMap";
     private List<Entity> entities = new ArrayList<Entity>();
+    private List<Light> lights = new ArrayList<Light>();
     private Terrain terrain;
     private Loader loader = new Loader();
     private Random random = new Random();
@@ -53,7 +54,10 @@ public class MainGameLoop {
         Player player = new Player(playerModel, new Vector3f(0, 0, -10), 0, 0, 0, 1.1f);
 
         ///////////////LIGHTING AND CAMERA///////////////////
-        Light light = new Light(new Vector3f(10000, 40000, 30000), new Vector3f(1, 1, 1));
+        Light sun = new Light(new Vector3f(10000, 40000, 30000), new Vector3f(1, 1, 1));
+        lights.add(sun);
+        lights.add(new Light(new Vector3f(200, 20, 200), new Vector3f(10, 0, 0)));
+        lights.add(new Light(new Vector3f(-200, 20, -200), new Vector3f(0, 0, 10)));
         Camera camera = new Camera(player);
 
         //////////////////GUIs///////////////////
@@ -72,7 +76,7 @@ public class MainGameLoop {
             for (Entity entity : entities){
                 renderer.processEntity(entity);
             }
-            renderer.render(light, camera);
+            renderer.render(lights, camera);
             guiRenderer.render(guis);
             DisplayManager.updateDisplay();
         }
