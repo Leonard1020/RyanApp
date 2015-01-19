@@ -54,10 +54,7 @@ public class MainGameLoop {
         Player player = new Player(playerModel, new Vector3f(0, 0, -10), 0, 0, 0, 1.1f);
 
         ///////////////LIGHTING AND CAMERA///////////////////
-        Light sun = new Light(new Vector3f(10000, 40000, 30000), new Vector3f(1, 1, 1));
-        lights.add(sun);
-        lights.add(new Light(new Vector3f(200, 20, 200), new Vector3f(10, 0, 0)));
-        lights.add(new Light(new Vector3f(-200, 20, -200), new Vector3f(0, 0, 10)));
+        createLighting();
         Camera camera = new Camera(player);
 
         //////////////////GUIs///////////////////
@@ -145,6 +142,13 @@ public class MainGameLoop {
                 }
             }
         }
+    }
+
+    public void createLighting(){
+        Light sun = new Light(new Vector3f(10000, 40000, 30000), new Vector3f(1, 1, 1));
+        lights.add(sun);
+        lights.add(new Light(new Vector3f(200, 20, 200), new Vector3f(10, 0, 0)));
+        lights.add(new Light(new Vector3f(-200, 20, -200), new Vector3f(0, 0, 10)));
     }
 
     private void loadTerrain(String background, String r, String g, String b, String blend){
