@@ -147,8 +147,9 @@ public class MainGameLoop {
     public void createLighting(){
         Light sun = new Light(new Vector3f(10000, 40000, 30000), new Vector3f(1, 1, 1));
         lights.add(sun);
-        lights.add(new Light(new Vector3f(200, 20, 200), new Vector3f(10, 0, 0)));
-        lights.add(new Light(new Vector3f(-200, 20, -200), new Vector3f(0, 0, 10)));
+        lights.add(new Light(new Vector3f(200, 20, 100), new Vector3f(1, 0, 0), new Vector3f(1, 0.01f, 0.002f)));
+        lights.add(new Light(new Vector3f(100, 20, 100), new Vector3f(0, 2, 2), new Vector3f(1, 0.01f, 0.002f)));
+        lights.add(new Light(new Vector3f(0, 20, 100), new Vector3f(2, 2, 0), new Vector3f(1, 0.01f, 0.002f)));
     }
 
     private void loadTerrain(String background, String r, String g, String b, String blend){
