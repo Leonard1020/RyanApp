@@ -57,13 +57,13 @@ public class MainGameLoop {
         createLighting();
         Camera camera = new Camera(player);
 
-        //////////////////GUIs///////////////////
+        ///////////////////////GUIs/////////////////////////
         List<GUITexture> guis = new ArrayList<GUITexture>();
         GUITexture gui = new GUITexture(loader.loadTexture("health"), new Vector2f(-.70f, -.75f), new Vector2f(0.15f, 0.25f));
         guis.add(gui);
         GUIRenderer guiRenderer = new GUIRenderer(loader);
 
-        MasterRenderer renderer = new MasterRenderer();
+        MasterRenderer renderer = new MasterRenderer(loader);
         while(!Display.isCloseRequested()){
             camera.move();
             player.move(terrain);
