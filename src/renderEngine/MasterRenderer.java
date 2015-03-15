@@ -86,6 +86,10 @@ public class MasterRenderer {
         terrains.add(terrain);
     }
 
+    public Matrix4f getProjectionMatrix(){
+        return projectionMatrix;
+    }
+
     public void processEntity(Entity entity){
         TexturedModel entityModel = entity.getModel();
         List<Entity> batch = entities.get(entityModel);

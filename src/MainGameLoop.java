@@ -16,6 +16,8 @@ import terrain.Terrain;
 import textures.ModelTexture;
 import textures.TerrainTexture;
 import textures.TerrainTexturePack;
+import toolbox.MousePicker;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -64,9 +66,18 @@ public class MainGameLoop {
         GUIRenderer guiRenderer = new GUIRenderer(loader);
 
         MasterRenderer renderer = new MasterRenderer(loader);
+
+        MousePicker picker = new MousePicker(camera, renderer.getProjectionMatrix(), terrain);
+
         while(!Display.isCloseRequested()){
-            camera.move();
             player.move(terrain);
+            camera.move();
+
+            picker.update();
+            Vector3f terrainPoint = picker.getCurrentTerrainPoint();
+            if (terrainPoint != null){
+                entities.get(2).setPosition(terrainPoint);
+            }
 
             renderer.processEntity(player);
             renderer.processTerrain(terrain);
